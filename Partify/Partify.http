@@ -1,0 +1,6 @@
+@Partify_HostAddress = http://localhost:5280
+
+GET {{Partify_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
