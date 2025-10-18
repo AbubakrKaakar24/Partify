@@ -54,5 +54,22 @@ namespace Partify.Application.Services
             await _unitOfWork.SaveChangesAsync(CancellationToken.None);
             return Result<CustomerResponseDto>.SuccessResult(_mapper.Map<CustomerResponseDto>(customerEntity));
         }
+
+        public async Task<Result<decimal>> GetOutstanding(int customerId)
+        {
+            var customerEntity = await _unitOfWork.CustomerRepository.GetById(customerId);
+            if (customerEntity == null)
+            {
+                return Result<decimal>.NotFoundResult(customerId);
+            }
+
+            var invoices = await _unitOfWork.InvoiceRepository.GetAll(i => i.CustomerId == customerId);
+            var receipts = await _unitOfWork.ReceiptRepository.GetAll(r => r.CustomerId == customerId);
+
+            var totalInvoice = invoices.Sum(i => i.TotalCost);
+            var totalReceipt = receipts.Sum(r => r.Amount);
+            var outstanding = totalInvoice - totalReceipt;
+            return Result<decimal>.SuccessResult(outstanding);
+        }
     }
 }

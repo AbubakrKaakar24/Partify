@@ -31,6 +31,9 @@ namespace Partify.API.Controllers
         [HttpDelete("{id:int}")]
         public async Task<ActionResult<CustomerResponseDto>> DeleteCustomer(int id) => HandleResultResponse(await _customerService.DeleteCustomer(id));
 
+        [HttpGet("{id:int}/outstanding")]
+        public async Task<ActionResult<decimal>> GetOutstanding(int id) => HandleResultResponse(await _customerService.GetOutstanding(id));
+
 
     }
 }

@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Partify.Infrastructure.AppDbContext
 {
-    public class PortifyDbContext:DbContext
+    public class PortifyDbContext : DbContext
     {
-        public PortifyDbContext(DbContextOptions<PortifyDbContext> options):base(options)
+        public PortifyDbContext(DbContextOptions<PortifyDbContext> options) : base(options)
         {
 
         }
@@ -19,8 +19,14 @@ namespace Partify.Infrastructure.AppDbContext
         {
             base.OnModelCreating(modelBuilder);
 
-           
+
         }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<Invoice> Invoices { get; set; }
+
+        public DbSet<Receipt> Receipts { get; set; }
+        public DbSet<DailyFinancialRecord> DailyFinancialRecords { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<Purchase> Purchases { get; set; }
     }
 }

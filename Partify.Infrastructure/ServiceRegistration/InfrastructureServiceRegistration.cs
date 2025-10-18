@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Partify.Domain.RespositoryContracts.Base;
 using Partify.Infrastructure.AppDbContext;
+using Partify.Infrastructure.Interceptor;
 using Partify.Infrastructure.Repositories.Base;
 using System;
 using System.Collections.Generic;
@@ -19,8 +21,16 @@ namespace Partify.Infrastructure.ServiceRegistration
             // Register your infrastructure services here
             // e.g., DbContext, Repositories, etc.
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddDbContext<PortifyDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<AuditInterceptor>();
+            services.AddDbContext<PortifyDbContext>((serviceProvider, options) => {
+
+                var interceptor = serviceProvider.GetRequiredService<AuditInterceptor>();
+
+                options.UseSqlServer(
+                        configuration.GetConnectionString("DefaultConnection")
+                    ).AddInterceptors(interceptor);
+            });
+
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
           
             return services;

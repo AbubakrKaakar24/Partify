@@ -15,5 +15,6 @@ namespace Partify.Application.ServiceContracts
         public Task<Result<CustomerResponseDto>> CreateCustomer(CustomerAddDto customer);
         public Task<Result<CustomerResponseDto>> UpdateCustomer(int id, CustomerUpdateDto customer);
         public Task<Result<CustomerResponseDto>> DeleteCustomer(int id);
+        public Task<Result<decimal>> GetOutstanding(int customerId);
     }
 }

@@ -1,13 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
+using Partify.Application.DTOs.Customers.Validators;
 using Partify.Application.ServiceContracts;
 using Partify.Application.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Reflection; // Add this if not already present
-using AutoMapper;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 namespace Partify.Application.ServiceRegistration
 {
     public static class ApplicationServiceRegistration
@@ -19,7 +16,17 @@ namespace Partify.Application.ServiceRegistration
 
             services.AddAutoMapper(cfg => { }, AppDomain.CurrentDomain.GetAssemblies());
 
+            services.AddFluentValidationAutoValidation();
+            services.AddFluentValidationClientsideAdapters();
+            services.AddValidatorsFromAssemblyContaining<CustomerAddDtoValidator>();
+
             services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<IInvoiceService, InvoiceService>();
+            services.AddScoped<IReceiptService, ReceiptService>();
+            services.AddScoped<IDailyFinancialRecordService, DailyFinancialRecordService>();
+            services.AddScoped<ISupplierService, SupplierService>();
+            services.AddScoped<IPurchaseService, PurchaseService>();
+            // Additional summary/outstanding services are included in existing supplier/purchase services
 
             return services;
         }
