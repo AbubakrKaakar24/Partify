@@ -10,7 +10,7 @@ namespace Partify.Application.Mapping
             // CreateMap<Source, Destination>();
             CreateMap<CustomerAddDto, Customer>();
             CreateMap<CustomerUpdateDto, Customer>();
-            CreateMap<Customer, CustomerResponseDto>();
+            CreateMap<Customer, CustomerResponseDto>(); // Maps NoPlate automatically
         }
 
     }

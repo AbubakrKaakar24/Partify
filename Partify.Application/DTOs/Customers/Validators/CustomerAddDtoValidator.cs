@@ -10,11 +10,10 @@ public class CustomerAddDtoValidator : AbstractValidator<CustomerAddDto>
         RuleFor(c => c.Name)
             .NotEmpty().WithMessage("Name is required")
             .MaximumLength(100).WithMessage("Name must be at most 100 characters");
-         
-        RuleFor(c => c.Email)
-            .NotEmpty().WithMessage("Email is required")
-            .EmailAddress().WithMessage("Email must be a valid email address")
-            .MaximumLength(150).WithMessage("Email must be at most 150 characters");
+        
+        RuleFor(c => c.NoPlate)
+            .NotEmpty().WithMessage("NoPlate is required")
+            .MaximumLength(20).WithMessage("NoPlate must be at most 20 characters");
 
         RuleFor(c => c.PhoneNumber)
             .NotEmpty().WithMessage("Phone number is required")
